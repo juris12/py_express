@@ -1,4 +1,7 @@
 class Routes:
+    """Routes object
+        creates route object with 4 methods
+    """
     def __init__(self, path) -> None:
         self._path = path
         self._methods = {"GET": None, "PUT": None, "POST": None, "DELETE": None}

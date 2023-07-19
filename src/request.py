@@ -3,6 +3,11 @@ import json
 
 class Request:
     def __init__(self, msg, params):
+        """ Request object
+        msg: request data that is recived from client
+        
+        params: url parameter that is added to route by user for example: "route/:parameter"
+        """
         bodyparse = ""
 
         body = msg.split("\r\n\r\n")

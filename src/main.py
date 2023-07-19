@@ -70,10 +70,10 @@ class Server:
                 client_socket.shutdown(socket.SHUT_WR)
             except KeyboardInterrupt:
                 print("keybord interupt...")
-            # except Exception as exc:
-            #     print('Error: ')
-            #     print(exc)
-            #     client_socket.shutdown(socket.SHUT_WR)
+            except Exception as exc:
+                print('Error: ')
+                print(exc)
+                client_socket.shutdown(socket.SHUT_WR)
 
     def stop_server(self):
         print("Server closed")

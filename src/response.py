@@ -1,7 +1,16 @@
 import json
 
 class Response:
-    """Creates response objekt"""
+    """Response objekt
+
+    header: sets a list of headers
+
+    status: sets satus code
+
+    mesage: sets regular text message
+
+    send: sends response to client
+    """
 
     def __init__(self, client_socket):
         self._headers = []

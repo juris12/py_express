@@ -1,7 +1,8 @@
 import socket
 import re
-from request import Request
-from response import Response
+from .request import Request
+from .response import Response
+from .routes import Routes
 
 
 class Server:
@@ -44,7 +45,7 @@ class Server:
         self._router_list.append(func(path))
 
     def _running_client(self):
-        for _ in range(200):
+        for _ in range(5):
             # while True:
             try:
                 client_socket, _ = self._server_socket.accept()

@@ -4,22 +4,26 @@ import sys
 import os
 parent_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(parent_dir, ".."))
-from lib.py_express.server import Server
-from routes.home_route import home_route
-from routes.register_route import register_route
-from routes.profil_route import profil_route
-from routes.login_route import login_route
+from src import Server, Response, Request, Routes
 
 #create server instance
 
 server = Server()
 
+def home_route_get(res: Response, req: Request, next=None):
+    res.status(200)
+    res.headers(["Content-Type: text/html", "charset=utf-8"])
+    res.mesage(f"Server is online")
+    res.send()
+
+
+def home_route(path):
+    route = Routes(path)
+    route.get(home_route_get)
+    return route
 
 # add routes to server
 server.route("/", home_route)
-server.route("/register", register_route)
-server.route("/login", login_route)
-server.route("/profil/:id", profil_route)
 
 # start server
 server.listen(IP, PORT, 5)

@@ -45,21 +45,29 @@ class Server:
         self._router_list.append(func(path))
 
     def _running_client(self):
-        for _ in range(5):
+        """ Starts server
+        
+        """
+        for _ in range(2):
             # while True:
             try:
                 client_socket, _ = self._server_socket.accept()
                 msg = client_socket.recv(1024).decode("utf-8")
+                req = Request(msg)
+
+
                 for r in self._router_list:
                     absolute_path = re.search(r"^([\/\w,\/]*)(?:\/:(\w*))?$", r._path)
                     params = absolute_path.group(2)
                     path = absolute_path.group(1)
-                    req = Request(msg, params)
-                    # print(req.path, path, req.params)
+                    req._add_params_and_path(msg, params)
+
+
                     if req.path == path:
                         print("----------------------------------------")
                         print(req.method, req.path, req.params)
                         print("----------------------------------------")
+
                         if r._methods[req.method] != None:
                             res = Response(client_socket)
                             r._methods[req.method](res, req)
@@ -67,6 +75,7 @@ class Server:
                             print(
                                 f"Method {req.method} is not defined for route {req.path}"
                             )
+
                 client_socket.shutdown(socket.SHUT_WR)
             except KeyboardInterrupt:
                 print("keybord interupt...")

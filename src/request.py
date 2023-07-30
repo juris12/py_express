@@ -2,12 +2,10 @@ import re
 import json
 
 class Request:
-    def __init__(self, msg, params):
-        """ Request object
-        msg: request data that is recived from client
+    """ Request object
         
-        params: url parameter that is added to route by user for example: "route/:parameter"
-        """
+    """
+    def __init__(self, msg):  
         bodyparse = ""
 
         body = msg.split("\r\n\r\n")
@@ -20,6 +18,17 @@ class Request:
         else:
             bodyparse = None
 
+        self._body = bodyparse
+        self._mathod = msg.split("\n")[0].split(" ")[0]
+
+
+    def _add_params_and_path(self,msg, params):
+        """ adds parameters and path to request object
+        msg: request data that is recived from client
+
+        params: url parameter that is added to route by user for example: "route/:parameter"
+
+        """
         absolute_path = re.search(
             r"^(\/[\w,\/]*)?(?:\/([\w,\.]*))$", msg.split("\n")[0].split(" ")[1]
         )
@@ -31,9 +40,6 @@ class Request:
         else:
             self._path = f"/{absolute_path.group(2)}"
             self._params = None
-
-        self._body = bodyparse
-        self._mathod = msg.split("\n")[0].split(" ")[0]
 
     @property
     def params(self):

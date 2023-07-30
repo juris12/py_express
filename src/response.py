@@ -1,15 +1,17 @@
 import json
 
 class Response:
-    """Response objekt
+    """Response object
 
-    header: sets a list of headers
+    Methods:
 
-    status: sets satus code
+        header: sets a list of headers
 
-    mesage: sets regular text message
+        status: sets satus code
 
-    send: sends response to client
+        mesage: sets regular text message
+
+        send: sends response to client
     """
 
     def __init__(self, client_socket):
@@ -64,19 +66,18 @@ class Response:
 
     def send_img(self, path):
         try:
-            with open("files/favicon.png", "rb") as f:
+            with open("1.png", "rb") as f:
                 img = f.read()
 
-                # response = (
-                # "HTTP/1.1 200 OK\r\n"
-                # "Content-Type: image/png\r\n"
-                # f"Content-Length: {format(len(img))}\r\n\r\n"
-                # f'{str(img)}'
-                # )
-                data = f"HTTP/1.1 200\r\n"
-                data += "\r\n"
-                data += f"img: {path} send!"
-                self._client_socket.sendall(data.encode())
+                response = (
+                "HTTP/1.1 200 OK\r\n"
+                "Content-Type: image/jpeg\r\n"
+                'Content-Disposition: inline; filename="test1.jpg"\r\n'
+                f"Content-Length: {format(len(img))}\r\n\r\n"
+                f'{img}'
+                )
+                print(response)
+                self._client_socket.sendall(response.encode())
         except FileNotFoundError:
             data = f"HTTP/1.1 404\r\n"
             data += "\r\n"

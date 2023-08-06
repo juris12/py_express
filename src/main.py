@@ -53,8 +53,8 @@ class Server:
             try:
                 client_socket, _ = self._server_socket.accept()
                 msg = client_socket.recv(1024).decode("utf-8")
-                req = Request(msg)
-
+                
+                req = Request(msg)      
 
                 for r in self._router_list:
                     absolute_path = re.search(r"^([\/\w,\/]*)(?:\/:(\w*))?$", r._path)
